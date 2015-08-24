@@ -70,8 +70,7 @@ function DrawMainMenu()
 							shell.run("cd "..shell.resolve(command))
 							shell.run("/usr/bin/Explorer.lua")
 						else	
-							shell.run("cd "..fs.getDir(command))
-							shell.run(command)
+							shell.run("//usr/bin/"..command)
 						end
 					end
 				else
