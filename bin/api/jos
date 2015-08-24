@@ -45,7 +45,7 @@ function loadDeskopFromFile(dir)
 	fileColor = colors.white
 	local FileList = fs.list(dir)
 	for i, file in ipairs(FileList) do
-		if file:sub(1,1) then
+		if file:sub(1,1) ~= "." then
 			if fs.isDir(dir..file) then
 				fileColor = colors.yellow
 			else
