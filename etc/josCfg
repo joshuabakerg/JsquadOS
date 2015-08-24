@@ -3,7 +3,7 @@ desktopDirectory = "/"
 
 startMenuItems = {"Explorer","settings", "programs","accessories","log out"}
 startMenuExec  = {"/usr/bin/Explorer.lua","","/usr/bin/","","shutdown"}
-startMenuWidth = 20
+startMenuWidth = 11
 startMenuBackgroundColor = colors.orange
 startMenuTextColor = colors.black
 
