@@ -1,0 +1,20 @@
+backgroundColor = colors.cyan
+desktopDirectory = "/"
+
+startMenuItems = {"Explorer","settings", "programs","accessories","log out"}
+startMenuExec  = {"/usr/bin/Explorer.lua","","/usr/bin/","","reboot"}
+startMenuWidth = 11
+startMenuBackgroundColor = colors.white
+startMenuTextColor = colors.black
+
+popUpMenuWidth = 11
+popUpMenuBackgroundColor = colors.white
+popUpMenuTextColor = colors.black
+
+optionPopUpItems = {"Open","edit","delete","rename"}
+optionPopUpExec = {"","edit ","delete ",""}
+optionPopupWidth = 11
+optionPopUpBackgroundColor = colors.white
+optionPopUpTextColor = colors.black
+
+dialogTextColor = colors.black

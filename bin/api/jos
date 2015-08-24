@@ -1,0 +1,209 @@
+backgroundColor = josCfg.backgroundColor
+
+function panelClicked(x,y,button)
+	if (x >= 1 and x <= 3) and (y == 19) then
+		return "clickedStartButton."
+	else
+		return null
+	end
+end
+
+function drawDesktop()
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setBackgroundColor(backgroundColor)
+	i = 1
+	while true do
+		if i  == 19 then
+			term.setBackgroundColor(colors.green)
+			write("JOS ")	
+			term.setBackgroundColor(colors.blue)
+			write("                                               ")
+			break
+		else
+			print("                                                   ")
+		end
+		i = i + 1
+	end
+	term.setBackgroundColor(colors.black)
+end
+
+function drawLabel(label,x,y,clr)
+	for i = 1,3,1 do
+		term.setBackgroundColor(clr)
+		term.setCursorPos(x,y)
+		write("    ")
+		y=y+1
+	end	
+	term.setCursorPos(x-1,y)
+	term.setBackgroundColor(backgroundColor)
+	print(label:sub(1,6))
+end
+
+function loadDeskopFromFile(dir)
+	x , y = 2 , 2
+	fileColor = colors.white
+	local FileList = fs.list(dir)
+	for i, file in ipairs(FileList) do
+		if fs.isDir(dir..file) then
+			fileColor = colors.yellow
+		else
+			fileColor = colors.white	
+		end
+		drawLabel(file,x,y,fileColor)
+		if x == 44 then 
+			y = y + 5
+			x = 2
+		else
+			x = x + 7
+		end
+	end
+end
+
+function drawStartMenu()
+	local list = josCfg.startMenuItems
+	local menuLength = table.getn(list)
+	local menuHeight = 18 - menuLength + 1 
+	term.setCursorPos(1,menuHeight)
+	term.setBackgroundColor(josCfg.startMenuBackgroundColor)
+	term.setTextColor(josCfg.startMenuTextColor)
+	for i = 1,menuLength do
+		for s = 1 , josCfg.startMenuWidth do 
+			write(" ")
+		end
+		term.setCursorPos(1, menuHeight + i - 1)
+		print(list[i])
+	end
+	local event, button, xPos, yPos = os.pullEvent("mouse_click")
+	for i = 1, menuLength do
+		if (xPos <= josCfg.startMenuWidth) and (yPos == i + menuHeight -1 ) then
+			return josCfg.startMenuExec[i] , xPos , yPos
+		end
+	end
+	
+
+end
+
+function drawDirPopUp(x,y,dir)
+	local aList = {}
+	local FileList = fs.list(dir) 
+	x = tonumber(x)
+	y = tonumber(y)
+	term.setBackgroundColor(josCfg.popUpMenuBackgroundColor)
+	term.setTextColor(josCfg.popUpMenuTextColor)
+	for i, file in ipairs(FileList) do
+		aList[i] = file
+    	end
+	term.setCursorPos(x,19 - table.getn(aList))
+	for i = 1,table.getn(aList) do
+		for s = 1 , josCfg.popUpMenuWidth do
+			write(" ")
+		end
+		local xPos, yPos = term.getCursorPos()
+		term.setCursorPos(xPos - josCfg.popUpMenuWidth,yPos)
+		print(aList[i]:sub(1,josCfg.popUpMenuWidth))
+		local xPos, yPos = term.getCursorPos()
+		term.setCursorPos(xPos + josCfg.popUpMenuWidth, yPos )	
+	end
+	local event, button, xPos, yPos = os.pullEvent("mouse_click")
+	for i = 0,  table.getn(aList)do
+		if (xPos <= josCfg.popUpMenuWidth + josCfg.startMenuWidth and xPos >= josCfg.startMenuWidth +1) and (yPos == i + 19 -table.getn(aList) -1  ) then
+			return aList[i]
+		end
+	end
+end
+
+function drawInputDialog(title,message)
+	term.setCursorPos(10,5)
+	term.setBackgroundColor(colors.blue)
+	term.setTextColor(josCfg.dialogTextColor)
+	write("                             ")
+	term.setBackgroundColor(colors.orange)
+	write(" ")
+	term.setBackgroundColor(colors.green)
+	write(" ")
+	term.setBackgroundColor(colors.red)
+	write(" ")
+	term.setCursorPos(10,5)
+	term.setBackgroundColor(colors.blue)
+	write(title)
+	term.setCursorPos(10,6)
+	term.setBackgroundColor(colors.lightGray)
+	write(" ")
+	term.setBackgroundColor(colors.yellow)
+	write("                              ")
+	term.setBackgroundColor(colors.lightGray)
+	write(" ")
+	term.setCursorPos(16,6)
+	term.setBackgroundColor(colors.yellow)
+	write(message)
+	term.setCursorPos(10,7)
+	term.setBackgroundColor(colors.lightGray)
+	write(" ")
+	term.setBackgroundColor(colors.yellow)
+	write("                              ")
+	term.setBackgroundColor(colors.lightGray)
+	write(" ")
+	term.setCursorPos(10,8)
+	term.setBackgroundColor(colors.lightGray)
+	write(" ")
+	term.setBackgroundColor(colors.yellow)
+	write("    ")
+	term.setBackgroundColor(colors.white)
+	write("                      ")
+	term.setBackgroundColor(colors.yellow)
+	write("    ")
+	term.setBackgroundColor(colors.lightGray)
+	write(" ")
+	term.setCursorPos(10,9)
+	term.setBackgroundColor(colors.lightGray)
+	write(" ")
+	term.setBackgroundColor(colors.yellow)
+	write("                              ")
+	term.setBackgroundColor(colors.lightGray)
+	write(" ")
+	term.setCursorPos(10,10)
+	write("                                ")
+	term.setCursorPos(15,8)
+	term.setBackgroundColor(colors.white)
+	result = io.read()
+	return result
+end
+
+function drawOptionPopUpMenu(x,y,dir)
+		
+end
+
+function getPressedButton(dir)  --Sets up buttons for the loaded labels , please use loadDesktopFromFile() first
+	f = {}
+	local loadedLabels = {}
+	x , y = 2 , 2
+	fileColor = colors.white
+	local FileList = fs.list(dir)
+	for i, file in ipairs(FileList) do
+		loadedLabels[i]= file
+		f[file.."x"] = x
+		f[file.."y"] = y
+		if x == 44 then 
+			y = y + 5
+			x = 2
+		else
+			x = x + 7
+		end
+	end
+		local event, button, xPos, yPos = os.pullEvent("mouse_click")
+	i = 1
+	while loadedLabels[i] ~= null do
+		if (xPos >= f[loadedLabels[i].."x"] and xPos <= f[loadedLabels[i].."x"] + 4 ) and (yPos >= f[loadedLabels[i].."y"] and yPos <=       f[loadedLabels[i].."y"] + 4 ) then
+			return loadedLabels[i],button
+		end
+		i = i + 1
+	end
+	
+	pC = panelClicked(xPos,yPos,button)
+	if pC ~= null then
+		return pC
+	end 		
+		
+	
+end
