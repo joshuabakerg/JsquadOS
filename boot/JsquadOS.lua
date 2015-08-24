@@ -67,10 +67,12 @@ function DrawMainMenu()
 					command = jos.drawDirPopUp(josCfg.popUpMenuWidth + 1 , y , command)
 					if command ~= null  then
 						if fs.isDir(shell.resolve(command)) then
+							shell.run("cd /")
 							shell.run("cd "..shell.resolve(command))
 							shell.run("/usr/bin/Explorer.lua")
 						else	
-							shell.run("//usr/bin/"..command)
+							shell.run("cd /")
+							shell.run(command)
 						end
 					end
 				else

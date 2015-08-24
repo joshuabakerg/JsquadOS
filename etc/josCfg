@@ -1,7 +1,7 @@
 backgroundColor = colors.cyan
-desktopDirectory = "/"
+desktopDirectory = "/home/joshua/Desktop/"
 
-startMenuItems = {"Explorer","settings", "programs","accessories","log out"}
+startMenuItems = {"Explorer","/", "programs","accessories","log out"}
 startMenuExec  = {"/usr/bin/Explorer.lua","","/usr/bin/","","reboot"}
 startMenuWidth = 11
 startMenuBackgroundColor = colors.white

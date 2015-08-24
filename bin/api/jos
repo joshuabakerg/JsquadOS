@@ -1,4 +1,4 @@
-backgroundColor = colors.cyan
+backgroundColor = josCfg.backgroundColor
 
 function panelClicked(x,y,button)
 	if (x >= 1 and x <= 3) and (y == 19) then
@@ -45,20 +45,19 @@ function loadDeskopFromFile(dir)
 	fileColor = colors.white
 	local FileList = fs.list(dir)
 	for i, file in ipairs(FileList) do
-		if file:sub(1,1) ~= "." then
-			if fs.isDir(dir..file) then
-				fileColor = colors.yellow
-			else
-				fileColor = colors.white	
-			end
-			drawLabel(file,x,y,fileColor)
-			if x == 44 then 
-				y = y + 5
-				x = 2
-			else
-				x = x + 7
-			end
+		if fs.isDir(dir..file) then
+			fileColor = colors.yellow
+		else
+			fileColor = colors.white	
 		end
+		drawLabel(file,x,y,fileColor)
+		if x == 44 then 
+			y = y + 5
+			x = 2
+		else
+			x = x + 7
+		end
+
 	end
 end
 
@@ -109,8 +108,7 @@ function drawDirPopUp(x,y,dir)
 	end
 	local event, button, xPos, yPos = os.pullEvent("mouse_click")
 	for i = 0,  table.getn(aList)do
-		if (xPos <= josCfg.popUpMenuWidth + josCfg.startMenuWidth and xPos >= josCfg.startMenuWidth +1) and (yPos == i + 19 -table.getn(aList) -1  ) then
-			return aList[i]
+		if (xPos <= josCfg.popUpMenuWidth + josCfg.startMenuWidth and xPos >= josCfg.startMenuWidth +1) and (yPos == i + 19 -table.getn(aList) -1  ) then			return "//"..dir..aList[i]
 		end
 	end
 end
@@ -197,7 +195,7 @@ function getPressedButton(dir)  --Sets up buttons for the loaded labels , please
 	i = 1
 	while loadedLabels[i] ~= null do
 		if (xPos >= f[loadedLabels[i].."x"] and xPos <= f[loadedLabels[i].."x"] + 4 ) and (yPos >= f[loadedLabels[i].."y"] and yPos <=       f[loadedLabels[i].."y"] + 4 ) then
-			return loadedLabels[i],button
+			return dir..loadedLabels[i],button
 		end
 		i = i + 1
 	end
