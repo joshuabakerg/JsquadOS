@@ -2,9 +2,9 @@ backgroundColor = colors.cyan
 desktopDirectory = "/"
 
 startMenuItems = {"Explorer","settings", "programs","accessories","log out"}
-startMenuExec  = {"/usr/bin/Explorer.lua","","/usr/bin/","","reboot"}
+startMenuExec  = {"/usr/bin/Explorer.lua","","/usr/bin/","","shutdown"}
 startMenuWidth = 11
-startMenuBackgroundColor = colors.white
+startMenuBackgroundColor = colors.orange
 startMenuTextColor = colors.black
 
 popUpMenuWidth = 11
