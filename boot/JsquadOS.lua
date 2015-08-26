@@ -71,7 +71,10 @@ function DrawMainMenu()
 							shell.run("cd "..shell.resolve(command))
 							shell.run("/usr/bin/Explorer.lua")
 						else	
+							jos.drawDesktop()
+							jos.loadDeskopFromFile(fileToLoad)
 							shell.run("cd /")
+							shell.run("cd "..fs.getDir(command))
 							shell.run(command)
 						end
 					end

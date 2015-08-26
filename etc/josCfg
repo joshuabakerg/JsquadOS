@@ -1,5 +1,5 @@
 backgroundColor = colors.cyan
-desktopDirectory = "/home/joshua/Desktop/"
+desktopDirectory = "/"
 
 startMenuItems = {"Explorer","/", "programs","accessories","log out"}
 startMenuExec  = {"/usr/bin/Explorer.lua","","/usr/bin/","","reboot"}
@@ -18,3 +18,7 @@ optionPopUpBackgroundColor = colors.white
 optionPopUpTextColor = colors.black
 
 dialogTextColor = colors.black
+
+windowTextColor = colors.black
+windowTitleColor = colors.blue
+windowMainColor = colors.purple  
