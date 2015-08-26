@@ -21,4 +21,4 @@ dialogTextColor = colors.black
 
 windowTextColor = colors.black
 windowTitleColor = colors.blue
-windowMainColor = colors.purple  
+windowMainColor = colors.lightgrey  

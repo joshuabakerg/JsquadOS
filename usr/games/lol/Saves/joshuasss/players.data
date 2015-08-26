@@ -1,0 +1,32 @@
+{
+  Player = {
+    currentMode = 0,
+    heldItem = false,
+    mainColor = 16384,
+    keepDirection = false,
+    coordinates = {
+      103,
+      67,
+    },
+    direction = 4,
+    currentDim = 0,
+    currentDefence = 0,
+    isAlive = true,
+    inventory = {
+      {
+        ID = 150,
+        Amount = 3,
+      },
+      {
+        ID = 13,
+        Amount = 3,
+      },
+      {
+        ID = 210,
+        Amount = 9,
+      },
+    },
+    currentHealth = 20,
+    currentEnergy = 20,
+  },
+}
