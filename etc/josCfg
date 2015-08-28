@@ -1,8 +1,9 @@
-backgroundColor = colors.cyan
+backgroundColor = colors.orange
 desktopDirectory = "/"
+desktopPictureDir = "/home/joshua/Pictures/color"
 
 startMenuItems = {"Explorer","/", "programs","accessories","log out"}
-startMenuExec  = {"/usr/bin/Explorer.lua","","/usr/bin/","","reboot"}
+startMenuExec  = {"/usr/bin/guiExplorer.lua","","/usr/bin/","","reboot"}
 startMenuWidth = 11
 startMenuBackgroundColor = colors.white
 startMenuTextColor = colors.black
@@ -21,4 +22,4 @@ dialogTextColor = colors.black
 
 windowTextColor = colors.black
 windowTitleColor = colors.blue
-windowMainColor = colors.lightgrey  
+windowMainColor = colors.gray
