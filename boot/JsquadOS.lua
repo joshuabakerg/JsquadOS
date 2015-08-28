@@ -51,7 +51,7 @@ function DrawMainMenu()
 	local fileToLoad = josCfg.desktopDirectory
 	local file = null
 	while true do 
-		jos.drawDesktop()
+		jos.drawDesktopPicture(josCfg.desktopPictureDir)
 		jos.loadDeskopFromFile(fileToLoad)
 		local file ,button = jos.getPressedButton(fileToLoad)
 		if file ~= null then
@@ -71,7 +71,7 @@ function DrawMainMenu()
 							shell.run("cd "..shell.resolve(command))
 							shell.run("/usr/bin/Explorer.lua")
 						else	
-							jos.drawDesktop()
+							jos.drawDesktopPicture(josCfg.desktopPictureDir)
 							jos.loadDeskopFromFile(fileToLoad)
 							shell.run("cd /")
 							shell.run("cd "..fs.getDir(command))
