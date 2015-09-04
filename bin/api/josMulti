@@ -1,0 +1,42 @@
+local tabs = {}
+local tabsTerm = {}
+local tabNames = {}
+local currentTab = 1
+local mainTerm = term.current()
+local tEvn = {
+    ["shell"] = shell,
+    ["multishell"] = multishell,
+}
+
+function newTab(sProg,sName,sArgs)
+	tabs[#tabs + 1] = coroutine.create(function()
+		os.run(tEvn,"rom/programs/shell",sProg,table.unpack( {sArgs} ))
+	end)	
+	tabsTerm[#tabsTerm + 1] = window.create(mainTerm,1,1,51,19)
+end
+
+function runTab()
+	local evnt = {}
+	local tmp = ""
+	while true do
+		term.redirect(tabsTerm[currentTab])
+		tmp = {coroutine.resume(tabs[currentTab],unpack(evnt))}
+		if coroutine.status(tabs[currentTab]) == "dead" then
+			table.remove(tabs,currentTab)
+			table.remove(tabsTerm,currentTab)
+			table.remove(tabNames,currentTab)
+			break
+		end
+		tabsTerm[currentTab].redraw()
+		evnt = {os.pullEvent(tmp[2])}
+			
+	end
+	term.redirect(mainTerm)
+end
+
+function changeCurrentTab(i)
+	if i > #tabs then
+		i = #tabs
+	end
+	currentTab = i
+end

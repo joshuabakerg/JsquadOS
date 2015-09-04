@@ -79,7 +79,9 @@ function DrawMainMenu()
 						end
 					end
 				else
-					shell.run(command)
+					--shell.run(command)
+					josMulti.newTab(command,"exp")
+					josMulti.runTab()
 				end
 			end
 		end

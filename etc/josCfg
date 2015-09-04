@@ -1,6 +1,6 @@
 backgroundColor = colors.orange
 desktopDirectory = "/"
-desktopPictureDir = "/home/joshua/Pictures/color"
+desktopPictureDir = "/home/joshua/Pictures/wallpaper"
 
 startMenuItems = {"Explorer","/", "programs","accessories","log out"}
 startMenuExec  = {"/usr/bin/guiExplorer.lua","","/usr/bin/","","reboot"}

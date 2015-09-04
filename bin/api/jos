@@ -313,10 +313,12 @@ function getPressedButton(dir)  --Sets up buttons for the loaded labels , please
 		local event, button, xPos, yPos = os.pullEvent("mouse_click")
 	i = 1
 	while loadedLabels[i] ~= null do
+		if xPos ~= nil and yPos ~= nill then 
 		if (xPos >= f[loadedLabels[i].."x"] and xPos <= f[loadedLabels[i].."x"] + 4 ) and (yPos >= f[loadedLabels[i].."y"] and yPos <=       f[loadedLabels[i].."y"] + 4 ) then
 			return dir..loadedLabels[i],button
 		end
 		i = i + 1
+		end
 	end
 	
 	pC = panelClicked(xPos,yPos,button)

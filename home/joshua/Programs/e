@@ -1,0 +1,39 @@
+local function getChars()
+	local termX, termY = term.getCursorPos()
+	while true do
+		local e = {os.pullEvent()}
+		if e[1] == "key" and e[2] == keys.enter then
+			return true
+		elseif e[1] == "char" then
+			term.setCursorPos(termX, termY)
+			term.write(e[2])
+			termX = termX + 1
+		end
+	end
+end
+
+local function saveChars()
+	local file = fs.open("test_file", "w")
+	while true do
+		local e = {os.pullEvent()}
+		if e[1] == "key" and e[2] == keys.enter then
+			term.clear() term.setCursorPos(1,1) term.write("Saved the file.")
+			file.close()
+		elseif e[1] == "char" then
+			file.write(e[2])
+		end
+	end
+end
+local getC = coroutine.create(getChars)
+local saveC = coroutine.create(saveChars)
+
+local evt = {}
+
+while true do
+	coroutine.resume(getC, unpack(evt))
+	coroutine.resume(saveC, unpack(evt))
+	if coroutine.status(getC) == "dead" then
+		break
+	end
+	evt = {os.pullEvent()}
+end
