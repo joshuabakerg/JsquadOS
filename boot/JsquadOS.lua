@@ -51,6 +51,7 @@ function DrawMainMenu()
 	local fileToLoad = josCfg.desktopDirectory
 	local file = null
 	while true do 
+		term.setCursorBlink(false)
 		jos.drawDesktopPicture(josCfg.desktopPictureDir)
 		jos.loadDeskopFromFile(fileToLoad)
 		local file ,button = jos.getPressedButton(fileToLoad)
@@ -75,12 +76,14 @@ function DrawMainMenu()
 							jos.loadDeskopFromFile(fileToLoad)
 							shell.run("cd /")
 							shell.run("cd "..fs.getDir(command))
-							shell.run(command)
+							josMulti.changeCurrentTabI(josMulti.newTab(command,fs.getName(command)))
+							josMulti.runTab()
 						end
 					end
 				else
 					--shell.run(command)
-					josMulti.newTab(command,"exp")
+					--jos.showMessage(command)
+					josMulti.changeCurrentTabI(josMulti.newTab(command,fs.getName(command)))
 					josMulti.runTab()
 				end
 			end

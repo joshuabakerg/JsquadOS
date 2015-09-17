@@ -1,11 +1,11 @@
-startDir = "/home/joshua/"
-returnDir = ""
+local startDir = "/home/joshua/"
+local returnDir = ""
 function listFiles(aFiles,begin,finish)
 	term.setBackgroundColor(josCfg.windowMainColor)	
 	term.setTextColor(colors.black)
-	x , y = 8 , 4	
+	local x , y = 8 , 4	
 	for i = begin,finish do
-		fileColor = colors.white
+		local fileColor = colors.white
 		if fs.isDir(aFiles[i]) then
 			fileColor = colors.yellow
 		else
@@ -56,9 +56,10 @@ function main ()
 		if listFiles(files,1,table.getn(files)-x) == "terminate" then
 			break
 		end
+		files = {}
 		
 	end
 end
 
---shell.run("cd "..startDir) --Too set default start directory
+shell.run("cd "..startDir) --Too set default start directory
 main()

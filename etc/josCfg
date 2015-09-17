@@ -2,8 +2,8 @@ backgroundColor = colors.orange
 desktopDirectory = "/"
 desktopPictureDir = "/home/joshua/Pictures/wallpaper"
 
-startMenuItems = {"Explorer","/", "programs","accessories","log out"}
-startMenuExec  = {"/usr/bin/guiExplorer.lua","","/usr/bin/","","reboot"}
+startMenuItems = {"Lua","Explorer","/", "programs","accessories","shutdown"}
+startMenuExec  = {"shell","/usr/bin/guiExplorer.lua","/rom/programs/","/usr/bin/","","shutdown"}
 startMenuWidth = 11
 startMenuBackgroundColor = colors.white
 startMenuTextColor = colors.black

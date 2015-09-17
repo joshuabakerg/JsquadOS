@@ -1,2 +1,3 @@
+--os.pullEvent() = os.pullEventRaw()
 shell.run("/bin/loadApi.lua")
 shell.run("/boot/JsquadOS.lua")

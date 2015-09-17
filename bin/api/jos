@@ -1,4 +1,4 @@
-backgroundColor = josCfg.backgroundColor
+local backgroundColor = josCfg.backgroundColor
 
 function showMessage(message)
 	term.setCursorPos(10,5)
@@ -7,7 +7,6 @@ function showMessage(message)
 	write("                             ")
 	term.setBackgroundColor(colors.orange)
 	write(" ")
-	term.setBackgroundColor(colors.green)
 	write(" ")
 	term.setBackgroundColor(colors.red)
 	write(" ")
@@ -22,7 +21,8 @@ function showMessage(message)
 	term.setTextColor(colors.black)
 	term.setBackgroundColor(colors.white)
 	write(message)
-	os.pullEvent()
+	os.pullEvent("key")
+	sleep(2)
 end
 
 function panelClicked(x,y,button)
@@ -52,6 +52,19 @@ function drawDesktop()
 		i = i + 1
 	end
 	term.setBackgroundColor(colors.black)
+end
+
+function drawTabs()
+	local tabNames = josMulti.getRunningTabs()
+	term.setCursorPos(6,19)
+	term.setBackgroundColor(colors.lightBlue)
+	term.setTextColor(colors.black)
+	x = 6
+	for i = 1, #tabNames do
+		write(josMulti.getTabName(i):sub(1,1))
+		term.setCursorPos(x+i+1,19)
+		x = x+1
+	end
 end
 
 function drawDesktopPicture(dir)
@@ -135,9 +148,10 @@ function drawLabel(label,x,y,clr,txtClr,bckTxtClr)
 	print(label:sub(1,6))
 end
 function loadDeskopFromFile(dir)
-	x , y = 2 , 2
-	fileColor = colors.white
+	local x , y = 2 , 2
+	local fileColor = colors.white
 	local FileList = fs.list(dir)
+	table.sort(FileList)
 	for i, file in ipairs(FileList) do
 		if fs.isDir(dir..file) then
 			fileColor = colors.yellow
@@ -281,7 +295,7 @@ function drawInputDialog(title,message)
 			write("|")
 		elseif (event == "key" and button == 28) then
 			return sWord
-		elseif (event == "mouse_click") then
+		elseif (event == "mouse_clicka") then
 			if (xPos == 41 and yPos == 5) then
 				break
 			end
@@ -299,6 +313,7 @@ function getPressedButton(dir)  --Sets up buttons for the loaded labels , please
 	x , y = 2 , 2
 	fileColor = colors.white
 	local FileList = fs.list(dir)
+	table.sort(FileList)
 	for i, file in ipairs(FileList) do
 		loadedLabels[i]= file
 		f[file.."x"] = x
@@ -310,6 +325,7 @@ function getPressedButton(dir)  --Sets up buttons for the loaded labels , please
 			x = x + 7
 		end
 	end
+		if josMulti.getTabLength() >= 1 then drawTabs() end
 		local event, button, xPos, yPos = os.pullEvent("mouse_click")
 	i = 1
 	while loadedLabels[i] ~= null do
@@ -320,6 +336,17 @@ function getPressedButton(dir)  --Sets up buttons for the loaded labels , please
 		i = i + 1
 		end
 	end
+	if josMulti.getTabLength() >= 1 then
+		x = 5
+		for i = 1,josMulti.getTabLength() do
+			if (yPos == 19) and (xPos == x+i) then
+				josMulti.changeCurrentTabI(i)
+				josMulti.runTab()
+			end
+			x = x+1
+		end
+	end
+	
 	
 	pC = panelClicked(xPos,yPos,button)
 	if pC ~= null then
