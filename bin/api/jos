@@ -330,7 +330,7 @@ function getPressedButton(dir)  --Sets up buttons for the loaded labels , please
 	i = 1
 	while loadedLabels[i] ~= null do
 		if xPos ~= nil and yPos ~= nill then 
-		if (xPos >= f[loadedLabels[i].."x"] and xPos <= f[loadedLabels[i].."x"] + 4 ) and (yPos >= f[loadedLabels[i].."y"] and yPos <=       f[loadedLabels[i].."y"] + 4 ) then
+		if (xPos >= f[loadedLabels[i].."x"] and xPos <= f[loadedLabels[i].."x"] + 3 ) and (yPos >= f[loadedLabels[i].."y"] and yPos <=       f[loadedLabels[i].."y"] + 3 ) then
 			return dir..loadedLabels[i],button
 		end
 		i = i + 1
