@@ -1,2 +1,0 @@
-shell.run("/bin/loadApi.lua")
-shell.run("/boot/JsquadOS.lua")

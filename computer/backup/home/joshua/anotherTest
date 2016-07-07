@@ -1,7 +1,0 @@
-while true do
-  
-  local event = {os.pullEvent()}
-  print(event[1].." "..event[2])    
-
-    
-end
