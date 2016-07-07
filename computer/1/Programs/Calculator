@@ -1,0 +1,24 @@
+local function startup()
+	print("Hello, this easy calculator. Just write + or - or * or /")
+end
+
+function clear()
+	term.clear()
+	term.setCursorPos(1,1)
+end
+
+while true do
+clear()
+startup()
+calculator = read()
+print ("Write you first number:")
+number1 = read()
+print ("Write you second number:")
+number2 = read()
+
+	if calculator == "+" then
+	number3 = number1 + number2
+	print("Result: "..number3)
+	sleep(3)
+	end
+end

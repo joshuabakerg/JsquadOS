@@ -1,0 +1,54 @@
+
+userName = "joshua"
+
+backgroundColor = colors.orange
+desktopDirectory = "/home/joshua/Desktop/"
+desktopPictureDir = "/home/joshua/Pictures/wallpaper.pnt"
+
+startMenuItems = {"Shell","Lua","Explorer","/", "programs","accessories","shutdown"}
+startMenuExec  = {"shell","lua","/usr/bin/guiExplorer.lua","/rom/programs/","/usr/bin/","","shutdown"}
+startMenuWidth = 11
+startMenuBackgroundColor = colors.white
+startMenuTextColor = colors.black
+
+
+tabButtonLength = 10
+
+popUpMenuWidth = 11
+popUpMenuBackgroundColor = colors.white
+popUpMenuTextColor = colors.black
+
+--option menu popup            <<not implemented>>
+optionPopUpItems = {"open","open with","edit","cut","copy","delete","rename","properties"}
+optionPopUpItemsInFile = {"paste","new file","new folder","properties"}
+optionPopupWidth = 11
+optionPopUpBackgroundColor = colors.white
+optionPopUpTextColor = colors.black
+defualtEditProgram = "/usr/bin/luaide"
+dialogTextColor = colors.black
+
+windowTextColor = colors.black
+windowTitleColor = colors.blue
+windowMainColor = colors.gray
+
+--defualt programs for extensions
+fileExtensions = {}
+fileExtensions[".pnt"] = "paint"
+fileExtensions[".lua"] = "/usr/bin/luaide"
+fileExtensions[".ico"] = "/usr/bin/icoEditor"
+
+--defualt icons for extensions
+blankIcon = "/usr/icons/blank.ico"
+folderIcon = "/usr/icons/folder.ico"
+fileExtensionIcon = {}
+fileExtensionIcon[".pnt"] = "/usr/icons/paint.ico"
+fileExtensionIcon[".lua"] = "/home/joshua/Pictures/icon.pnt"
+fileExtensionIcon[".ico"] = "/usr/icons/ico.ico"
+fileExtensionIcon[".short"] = "/usr/icons/lua.ico"
+
+--defualt sizes for programs
+defualtprogramSize={}
+defualtprogramSize["icoEditor.lua"] = {x=19,xw=15,y=4,yw=11}
+
+
+

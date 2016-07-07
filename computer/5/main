@@ -1,0 +1,45 @@
+toggle = true
+rednet.open("back")
+print("please enter turtles id")
+tutID = read()
+
+function BasicProg()
+	while toggle == true do
+		print("enter program you would like the turtle to run")
+		command = read()
+		rednet.send(tonumber(tutID),command)
+		if command == "exit" then
+			toggle = false
+		end
+	end
+end
+
+function AdvceProg()
+	print("do you want to send code or a program to run. c/p?")
+	if read() == "c" then
+		while true do
+			print("please enter code that you want to send")
+			local line = read()
+			if line == "exit" then
+				break
+			end
+			rednet.send(tonumber(tutID),line)
+		end
+	else
+		while true do
+			print("please enter directory of file you would like to send")
+			local sFile = read()
+			if sFile == "exit" then
+				break
+			end
+			if fs.exists(sFile) then
+				local tFile = fs.open(sFile,"r")
+				rednet.send(tonumber(tutID),tFile.readAll())
+				tFile.close()
+			else 
+				print("file doesnt exist")
+			end
+		end
+	end
+end
+AdvceProg()

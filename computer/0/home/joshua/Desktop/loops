@@ -1,0 +1,10 @@
+run = true
+
+while(run)do
+  print("hello")
+  run = false
+end
+
+for i = 0 ,10,1 do
+  print(i*i)
+end

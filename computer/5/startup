@@ -1,0 +1,8 @@
+--os.pullEvent() = os.pullEventRaw()
+shell.run("/bin/loadApi.lua")
+sleep(2)
+--shell.run("/boot/JsquadOS.lua")
+josMulti.newTab("/boot/JsquadOSTest.lua","JsquadOS"," ",true) 
+josMulti.start()
+--shell.run("/boot/JsquadOSTest.lua")
+

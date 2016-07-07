@@ -1,0 +1,5 @@
+local response = http.post(
+		"http://10.0.0.21/ServerCommand.php",
+		"password=wesfzxc&command=list"
+)
+print(response.readAll())

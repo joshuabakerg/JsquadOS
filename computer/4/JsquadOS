@@ -1,0 +1,178 @@
+aList = {}
+clipBoardC = ""
+clipBoardN = ""
+jsquadosPastebinCode = "w93AaBmB";
+
+
+function MainMenuBtns()
+DrawMainMenu()
+while true do
+    local event, button, xPos, yPos = os.pullEvent("mouse_click")
+
+    if (xPos > 17 and xPos < 25) and (yPos == 1) then 
+        Explorer()
+        DrawMainMenu()
+    end
+
+    if (xPos > 15 and xPos < 28) and (yPos == 2) then 
+        print("Enter a program")
+        shell.openTab(read())
+        DrawMainMenu()
+    end
+
+    if (xPos > 17 and xPos < 31) and (yPos == 3) then
+		updateOS()
+		DrawMainMenu()
+    end
+    if (xPos > 20 and xPos < 25) and (yPos == 4) then
+        print("program will exit")
+        sleep(1)
+        break
+    end
+end
+end
+
+
+function DrawMainMenu()
+    term.clear()
+    term.setCursorPos(1,1)
+    print("                   Explore                        ")
+    print("                 Open program                     ")
+    print("                  update  OS                      ")
+    print("                    Exit                          ")
+    print("___________________________________________________")
+end
+
+function Explorer(task)
+while true do
+    n = 0
+    term.clear()
+    term.setCursorPos(1,1)
+    local FileList = fs.list(shell.dir()) 
+    for i, file in ipairs(FileList) do
+        print(file)
+        aList[i] = file
+        n = i
+        if i == 16 then
+            break
+        end
+    end
+    
+        
+
+    print("/")
+    print("X")
+    n = n+1;
+    aList[n] = "..";
+    n = n+1;
+    aList[n] = "X";
+    
+    local event, button, xPos, yPos = os.pullEvent("mouse_click")
+	if button == 1 then
+		if aList[yPos] ~= nil then
+			if aList[yPos] == "X" then
+				break
+			elseif aList[yPos] == ".." then
+				shell.run("cd "..aList[yPos])
+			end
+			
+			if fs.isDir(aList[yPos]) then
+				shell.run("cd "..aList[yPos]) 
+			end 
+			if task ~= nil then
+					shell.run(task .." "..aList[yPos])
+			else
+				shell.run(aList[yPos])
+			end
+		end
+	elseif button == 2 then
+		if aList[yPos] ~= nil then
+			if (aList[yPos] ~= "X") and (aList[yPos] ~= "/") then
+				editTool(aList[yPos])
+			end
+		end
+	end
+end
+end
+
+function editTool(dir)
+	term.clear()
+	term.setCursorPos(1,1)
+	print("Open in new tab")
+	print("Open with..")
+	print("Copy")
+	print("Paste")
+	print("Delete")
+	print("Edit")
+	print("Rename")
+	print("Create File")
+	print("Create Folder")
+	local event, button, xPos, yPos = os.pullEvent("mouse_click")
+	if (xPos > 0 and xPos <= 15) and (yPos == 1) then
+		print(shell.resolve(dir))
+		sleep(1)
+        shell.openTab(shell.resolve(dir))
+    end
+	if (xPos > 0 and xPos <= 15) and (yPos == 2) then
+		term.clear()
+		term.setCursorPos(1,1)
+		write("Please enter program")
+		local sProg = read()
+			shell.run(sProg.." " ..dir)
+    end 
+	
+	if (xPos > 0 and xPos < 5) and (yPos == 3) then
+		local tFile = fs.open(shell.dir().."/"..dir,"r")
+		print(tFile.readAll())
+		clipBoardC = tFile.readAll()
+		clipBoardN = fs.getName(dir)
+		tFile.close()
+    end
+	if (xPos > 0 and xPos < 6) and (yPos == 4) then
+		local tFile = fs.open(shell.dir().."/"..clipBoardN,"w")
+		tFile.write(clipBoardC)
+		tFile.close()
+		
+    end
+	if (xPos > 0 and xPos < 7) and (yPos == 5) then
+		fs.delete(shell.dir().."/"..dir)
+    end
+	if (xPos > 0 and xPos <= 4) and (yPos == 6) then
+        shell.run("edit " ..dir)
+    end
+	if (xPos > 0 and xPos <= 6) and (yPos == 7) then
+        local orgF = shell.resolve(dir)
+		term.clear()
+		term.setCursorPos(1,1)
+		write("Rename from "..dir.." to:")
+		local newF = shell.resolve(read())
+		fs.move(orgF,newF)
+    end
+	if (xPos > 0 and xPos <= 11) and (yPos == 8) then
+		term.clear()
+		term.setCursorPos(1,1)
+		write("File Name:")
+		local myFile = fs.open(shell.dir().."/"..read(),"w")
+		myFile.close()
+		
+    end
+	if (xPos > 0 and xPos <= 13) and (yPos == 9) then
+		term.clear()
+		term.setCursorPos(1,1)
+		write("Name:")
+		fs.makeDir(shell.dir().."/"..read())
+    end
+	
+	
+
+end
+
+function updateOS()
+	if fs.exists("/JsquadOS") then	
+		fs.delete("/JsquadOS")
+	end
+	shell.run("pastebin get "..jsquadosPastebinCode.." /JsquadOS")
+	print("")
+end
+
+MainMenuBtns()

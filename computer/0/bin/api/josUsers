@@ -1,0 +1,56 @@
+local users = usersCfg.users
+currentUser = users[2]
+local currentUserIndex = 1
+
+newUser = function(sName,sPassword)
+	if findUserByName(sName) ~= nil then
+		return false 
+	end
+
+	if not fs.isDir("/home/"..sName) then
+		fs.makeDir("/home/"..sName)
+	end
+
+	users[#users+1] = {
+		name = sName,
+		password = sPassword,
+		homeDir =  "/home/"..sName,
+		desktopDirectory = "/home/joshua/Desktop/",
+		wallpaper = "/home/joshua/Pictures/wallpaper.pnt",
+
+	}
+	currentUser = #users
+end
+
+function saveUsers()
+	local save = "users = "..textutils.serialise(users)
+	local myFile = fs.open("/etc/usersCfg","w")
+	myFile.write(save)
+	myFile.close()
+
+end
+
+function changeUser(id)
+	currentUser = users[id]
+end
+
+
+function findUserByName(name)
+	for i = 1 , #users do
+		if users[i].name == name then
+			return i
+		end
+		return nil
+
+	end
+
+end
+
+function getCurrentuser()
+	return users[currentUser]
+end
+
+function getUser(id)
+	return users[id]
+end
+

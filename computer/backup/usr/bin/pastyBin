@@ -1,0 +1,130 @@
+key = ""
+devKey = ""
+userName = ""
+password = ""
+function login()
+	myFile = null
+	if not fs.exists("/etc/pastyLogin.cfg") then
+		myFile = fs.open("/etc/pastyLogin.cfg","w")
+		userName = jos.drawInputDialog("Login","Please enter username: ")
+		password = jos.drawInputDialog("Login","Please enter password: ")
+		devKey = jos.drawInputDialog("Login","Please enter dev key: ")
+		myFile.writeLine(userName)
+		myFile.writeLine(password)
+		myFile.writeLine(devKey)
+	else 
+		myFile = fs.open("/etc/pastyLogin.cfg","r")
+		userName = myFile.readLine()
+		--lol = myFile.readLine()
+		password = myFile.readLine()
+		devKey = myFile.readLine()
+	end
+	myFile.close()
+	term.clear()
+	term.setCursorPos(1,1)
+	print("Logging in..")
+	local response = http.post(
+		"http://pastebin.com/api/api_login.php",
+		"api_dev_key=".. textutils.urlEncode(devKey)..
+		"&api_user_name="..textutils.urlEncode(userName)..
+		"&api_user_password="..textutils.urlEncode(password)
+	)
+	key = response.readAll()
+end
+function getPrograms()
+	term.clear()
+	term.setCursorPos(1,1)
+	print("Downloading pastebin list..")
+	response = http.post(
+		"http://pastebin.com/api/api_post.php",
+		"api_option=list"..
+		"&api_dev_key="..textutils.urlEncode(devKey)..
+		"&api_user_key="..textutils.urlEncode(key)..
+		"&api_results_limit=100"
+	)
+	line = response.readAll()
+    local lsPrograms = {}                   -- table to store the indices
+    local i = 0
+	local e = 0
+	while true do
+		i,e = string.find(line,"<paste_title>",i+1)
+		if i == nil then break end
+		sWord = line:sub(e+1,string.find(line,"</paste_title>",i+1)-1)
+		table.insert(lsPrograms, sWord)
+	end
+	i = 0
+	e = 0
+	count = 1 
+    while true do
+    i,e = string.find(line, "<paste_key>", i+1)    -- find 'next' newline
+      if i == nil then break end
+      lsPrograms[count] = lsPrograms[count] ..","..line:sub(e+1,e+8)
+	  count = count +1
+    end
+	term.clear()
+	term.setCursorPos(1,1)
+	aListName = {}
+	aListPastebinCode = {}
+	i = 1
+	while true do
+		if lsPrograms[i] == nil then
+			break
+		end
+		aListName[i] = lsPrograms[i]:sub(1, string.find(lsPrograms[i],",")-1)
+		aListPastebinCode[i] = lsPrograms[i]:sub(string.find(lsPrograms[i],",")+1 , string.len(lsPrograms[i]))
+		print(aListName[i])
+		i = i + 1
+		
+	end
+	local event, button, xPos, yPos = os.pullEvent("mouse_click")
+	if aListName[yPos] ~= null then
+		shell.run("pastebin get " ..aListPastebinCode[yPos] .." "..aListName[yPos])
+	end
+	
+end
+function putProgram()
+	term.clear()
+	term.setCursorPos(1,1)
+	write("Please enter program path")
+	sPath = io.read()
+	local sName = fs.getName( sPath )
+	if fs.exists(sPath) then
+		local file = fs.open( sPath, "r" )
+		local sText = file.readAll()
+		file.close()
+		send = "api_option=paste&api_dev_key="..textutils.urlEncode(devKey).."&api_paste_code="..textutils.urlEncode(sText).."&api_paste_private=1&api_paste_name="..textutils.urlEncode(sName).."&api_paste_expire_date=N&api_user_key="..textutils.urlEncode(key)
+		local response = http.post("http://pastebin.com/api/api_post.php",send)
+		print(response)
+		sleep(2)
+	end
+	
+end
+function interface()
+	
+	while true do
+		term.clear()
+		term.setCursorPos(1,1)
+		print("Login")
+		print("View pastes")
+		print("Upload paste")	
+		print("Exit")
+		local event, button, xPos, yPos = os.pullEvent("mouse_click")
+		if yPos == 1 then
+			login()
+		end
+		if yPos == 2 then
+			getPrograms()
+		end
+		if yPos == 3 then
+			putProgram()
+		end
+		if yPos == 4 then
+			break
+		end
+	end
+end
+
+if fs.exists("/etc/pastyLogin.cfg") then
+	login()
+end
+interface()

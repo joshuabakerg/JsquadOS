@@ -1,0 +1,181 @@
+local tabs = {}
+local tabsTerm = {}
+local tabNames = {}
+local currentTab = 1
+local lastTab = -1
+local mainTerm = term.current()
+local tEvn = {
+    ["shell"] = shell,
+    ["multishell"] = multishell,
+}
+local parentShell = shell
+local termCoords = {}
+defaultTermSize = {1,1,51,19}
+
+function newTab(sProg,sName,sArgs)
+	tabs[#tabs + 1] = coroutine.create(function()
+		os.run(tEvn,"/bin/josShell",sProg,table.unpack({sargs}))
+	end)	
+	tabNames[#tabNames + 1] = sName
+	local ProgFile = fc.read(sProg)
+	local TSize = ""
+	--print (ProgFile)
+	--sleep(2)
+	if ProgFile then
+		if string.sub(ProgFile[1],1,14) == "--term size = " then
+			TSize = string.sub(ProgFile[1],15)
+			--print(TSize)
+			--print(TSize:find("x"))
+			--sleep(2)
+			end
+	end
+	
+	termCoords[#termCoords + 1] = defaultTermSize
+	tabsTerm[#tabsTerm + 1] = window.create(mainTerm,unpack(termCoords[#termCoords]))
+	local progName = fc.split(sProg," ")[1]
+	if(josCfg.defualtprogramSize[progName] ~= nil) then
+		--print(fs.getName(sProg))
+		local progSize = josCfg.defualtprogramSize[progName]
+		setTabSize(#tabs,progSize.x,progSize.xw,progSize.y,progSize.yw)
+	end
+	return #tabs
+end
+
+function runTab()
+	local evnt = {}
+	local tmp = ""
+	while true do
+		term.redirect(tabsTerm[currentTab])
+		tempTab = currentTab
+		--print(evnt[3])
+		--print(evnt[4])
+		--sleep(1)
+		if evnt[1] == "mouse_click" then
+			evnt[3] = evnt[3] - defaultTermSize[1] +1
+			evnt[4] = evnt[4] - defaultTermSize[2] +1
+		end
+		tmp = {coroutine.resume(tabs[currentTab],unpack(evnt))}
+		if coroutine.status(tabs[currentTab]) == "dead" then
+			table.remove(tabs,currentTab)
+			table.remove(tabsTerm,currentTab)
+			table.remove(tabNames,currentTab)
+			break
+		end
+		local x , y = term.getCursorPos()
+		local xSize , ySize = term.getSize()
+		local orgBckColor = term.getBackgroundColor()
+		local orgTxtColor = term.getTextColor()
+		tabsTerm[currentTab].redraw()
+		term.setCursorPos(xSize - 5,1)
+		term.setBackgroundColor(colors.blue)
+		term.setTextColor(colors.black)
+		write(currentTab)
+		write("<")
+		write(">")
+		term.setBackgroundColor(colors.orange)
+		term.setTextColor(colors.black)
+		write("-")
+		term.setBackgroundColor(colors.green)
+		write("+")
+		term.setBackgroundColor(colors.red)
+		write("x")
+		term.setBackgroundColor(orgBckColor)
+		term.setTextColor(orgTxtColor)
+		term.setCursorPos(x,y)
+		if tempTab == currentTab then
+		evnt = {os.pullEvent(tmp[2])}
+		--jos.showMessage(evnt[3].." "..evnt[4])
+		if evnt[1] == "mouse_click" and evnt[3] == termCoords[currentTab][1] + xSize - 3 and evnt[4] == termCoords[currentTab][2] then
+			break
+		elseif evnt[1] == "mouse_click" and evnt[3] == termCoords[currentTab][1] + xSize -1 and evnt[4] == termCoords[currentTab][2] then
+			table.remove(tabs,currentTab)
+			table.remove(tabsTerm,currentTab)
+			table.remove(tabNames,currentTab)
+			term.clear()
+			if lastTab >= 0 and lastTab <= #tabs  then
+				currentTab = lastTab
+				lastTab = -1
+				term.redirect(mainTerm)
+			else
+				break	
+			end
+		elseif evnt[1] == "mouse_click" and evnt[3] ==  termCoords[currentTab][1] + xSize -2 and evnt[4] == termCoords[currentTab][2] then
+			termCoords[currentTab] = {1,1,51,19}
+			tabsTerm[currentTab].reposition(1,1,51,19)
+		elseif evnt[1] == "mouse_click" and evnt[3] ==  termCoords[currentTab][1] + xSize -4 and evnt[4] == termCoords[currentTab][2] then			
+			local i = currentTab
+			i = i + 1 
+			if i > #tabs then
+				i = 1
+			end
+			currentTab = i
+			term.redirect(mainTerm)
+			jos.drawDesktopPicture(josCfg.desktopPictureDir)
+			jos.loadDeskopFromFile(josCfg.desktopDirectory)
+			
+		elseif evnt[1] == "mouse_click" and evnt[3] ==  termCoords[currentTab][1] + xSize -5 and evnt[4] == termCoords[currentTab][2] then			
+			local i = currentTab
+			i = i - 1 
+			if i < 1 then
+				i = #tabs
+			end
+			currentTab = i
+			term.redirect(mainTerm)
+			jos.drawDesktopPicture(josCfg.desktopPictureDir)
+			jos.loadDeskopFromFile(josCfg.desktopDirectory)
+		end
+		end
+			
+	end
+	term.redirect(mainTerm)
+end
+
+function setLastTab(lTab)
+	lastTab = lTab
+end
+
+function changeCurrentTabI(i)
+	if tonumber(i) > #tabs then
+		i = #tabs
+	end
+	currentTab = i
+end
+function changeCurrentTabN(name)
+	local ChangeToIndex = nil
+	for i = 1,#tabs do
+		if tabs[i] == name then
+			changeToIndex = i 
+		end
+	end
+	if ChangeToIndex == nil then
+		print("no tab named "..name)
+		sleep(1)
+	else
+		currentTab = changeToIndex
+	end
+end
+function getTabLength()
+	return #tabs
+end
+function getCurrentTab()
+	return currentTab
+end
+
+function getTabName(i)
+
+	if i > #tabNames then
+		--i = #tabNames
+		return "no protgram"
+	end
+	return tabNames[i]
+end
+function getRunningTabs()
+	return tabNames
+end
+
+function setTabSize(tabID,x,xw,y,yw)
+	--termCoords[tabID] = {x,y,xw+x,yw+y}
+	--tabsTerm[tabID].reposition(x,y,xw+x,yw+y)
+	termCoords[tabID] = {x,y,xw,yw}
+	tabsTerm[tabID].reposition(x,y,xw,yw)
+end

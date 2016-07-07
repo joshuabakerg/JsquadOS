@@ -1,0 +1,102 @@
+function write(file,contents)
+	myFile = fs.open(file,"w")
+	myFile.write(contents)
+	myFile.close()
+	return "Suceeded"
+end
+
+function read(file)
+	if fs.exists(file) then
+		local myFile = fs.open(file,"r")
+		local line = myFile.readLine()
+		local data = {}
+		while line do
+			table.insert(data,line)
+			line = myFile.readLine()
+		end
+		myFile.close()
+		return data
+	else
+		return false	
+	end
+end
+
+function getFileName(url)
+  return url:match("^.+/(.+)$")
+end
+
+function getFileExtension(url)
+  return url:match("^.+(%..+)$")
+end
+
+function getFileNameExcludeExt(url)
+  for i = 1 ,#url ,1 do
+	if url:sub(i,i) == "." then
+		return string.sub(url,0,i-1)
+	end
+  end
+end
+
+function split(inputstr, sep)
+        if sep == nil then
+                sep = "%s"
+        end
+        local t={} ; i=1
+        for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+                t[i] = str
+                i = i + 1
+        end
+        return t
+end
+
+function copyTill(url,sCut)
+  for i = 1 ,#url ,1 do
+	if url:sub(i,i) == sCut then
+		return string.sub(url,0,i-1)
+	end
+  end
+end
+
+function excludeTill(url,sCut)
+  for i = 1 ,#url ,1 do
+	if url:sub(i,i) == sCut then
+		return string.sub(url,i,#url)
+	end
+  end
+end
+
+function cutPath(url,sCut)
+  for i = #url ,1 ,-1 do
+	if url:sub(i,i) == sCut then
+		return string.sub(url,0,i)
+	end
+  end
+end
+
+function getPath(url,sCut)
+  for i = #url ,1 ,-1 do
+	if url:sub(i,i) == sCut then
+		return string.sub(url,i+1,-1)
+	end
+  end
+end
+
+function split(pString, pPattern)
+   local Table = {}  -- NOTE: use {n = 0} in Lua-5.0
+   local fpat = "(.-)" .. pPattern
+   local last_end = 1
+   local s, e, cap = pString:find(fpat, 1)
+   while s do
+          if s ~= 1 or cap ~= "" then
+         table.insert(Table,cap)
+          end
+          last_end = e+1
+          s, e, cap = pString:find(fpat, last_end)
+   end
+   if last_end <= #pString then
+          cap = pString:sub(last_end)
+          table.insert(Table, cap)
+   end
+   return Table
+end
+

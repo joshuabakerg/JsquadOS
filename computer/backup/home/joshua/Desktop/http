@@ -1,0 +1,7 @@
+term.clear()
+term.setCursorPos(1,1)
+local input = io.read()
+print("http://10.0.0.21/ComputerCraft.php".."password=wesfzxc&"..input)
+local response = http.post("http://10.0.0.21/ComputerCraft.php","password=wesfzxc&"..input).readAll()
+print(response)
+os.pullEvent("key")

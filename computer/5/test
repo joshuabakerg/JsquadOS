@@ -1,0 +1,9 @@
+
+local popup = josUI.newTabList("test",5,19,40,1,{{name = "test"},{name = "josh"},{name = "gld"}})
+
+while true do
+	
+	popup:render()
+	popup:update({os.pullEvent()})
+	
+end

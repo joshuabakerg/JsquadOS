@@ -1,0 +1,16 @@
+users = {
+  {
+    name = "joshua",
+	password = "1234",
+	homeDir =  "/home/joshua",
+	desktopDirectory = "/home/joshua/Desktop/",
+	wallpaper = "/home/joshua/Pictures/wallpaper.pnt",
+  },
+  {
+    name = "test",
+	password = "1234",
+	homeDir =  "/home/joshua",
+	desktopDirectory = "/home/joshua/Desktop/",
+	wallpaper = "/home/joshua/Pictures/jos.pnt",
+  },
+}
