@@ -1,5 +1,5 @@
-local users = usersCfg.users
-currentUser = users[2]
+users = usersCfg.users
+currentUser = users[1]
 local currentUserIndex = 1
 
 newUser = function(sName,sPassword)
@@ -47,7 +47,7 @@ function findUserByName(name)
 end
 
 function getCurrentuser()
-	return users[currentUser]
+	return currentUser
 end
 
 function getUser(id)

@@ -1,0 +1,44 @@
+users = {
+  {
+    name = "joshua",
+	password = "1234",
+	homeDir =  "/home/joshua",
+	desktopDirectory = "/home/joshua/Desktop/",
+	wallpaper = "/home/joshua/Pictures/wallpaper.pnt",
+	startMenuItems = {
+		width = 11,
+		backgroundColor = colors.white,
+		textColor = colors.black,
+		{
+			name = "Shell",
+			exec = "shell"
+		},
+		{
+			name = "Lua",
+			exec = "lua"
+		},
+		{
+			name = "Explorer",
+			exec = "/usr/bin/guiExplorer.lua"
+		},
+		{
+			name = "/",
+			exec = "/rom/programs/"
+		},
+		{
+			name = "programs",
+			exec = "/usr/bin/"
+		},
+		{
+			name = "accessories",
+			exec = ""
+		},
+		{
+			name = "shutdown",
+			exec = "shutdown"
+		},
+
+	},
+  },
+  
+}

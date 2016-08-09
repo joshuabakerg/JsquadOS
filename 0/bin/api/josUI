@@ -147,6 +147,7 @@ function newImage(sName,file,xPos,yPos)
 		x = xPos,
 		y = yPos,
 		image = theImage,
+		imageDir = file,
 		enabled = true,
 		render = function(self)
 			paintutils.drawImage(self.image,self.x,self.y)

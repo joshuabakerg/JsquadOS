@@ -13,7 +13,7 @@ defaultTermSize = {1,1,51,19}
 local mainPanel = nil
 local currentTabBtn = nil
 local tabReduceBtn = nil
-local tabIncreadeBtn = nil
+local tabIncreaseBtn = nil
 local minimizeBtn = nil
 local maximizeBtn = nil
 local exitBtn = nil
@@ -142,8 +142,8 @@ function init()
 	currentTabBtn.alignRight = true
 	tabReduceBtn = josUI.newButton("<",function() changeCurrentTabI(currentTab-1) end,5,1,1,1,colors.blue)
 	tabReduceBtn.alignRight = true
-	tabIncreadeBtn = josUI.newButton(">",function() changeCurrentTabI(currentTab+1) end,4,1,1,1,colors.blue)
-	tabIncreadeBtn.alignRight = true
+	tabIncreaseBtn = josUI.newButton(">",function() changeCurrentTabI(currentTab+1) end,4,1,1,1,colors.blue)
+	tabIncreaseBtn.alignRight = true
 	minimizeBtn = josUI.newButton("-",function() useDesktop = true end,3,1,1,1,colors.orange)
 	minimizeBtn.alignRight = true
 	maximizeBtn = josUI.newButton("+",function() end,2,1,1,1,colors.green)
@@ -153,7 +153,7 @@ function init()
 	mainPanel = josUI.newPanel("mainPnl")
 	mainPanel:addUI(currentTabBtn)
 	mainPanel:addUI(tabReduceBtn)
-	mainPanel:addUI(tabIncreadeBtn)
+	mainPanel:addUI(tabIncreaseBtn)
 	mainPanel:addUI(minimizeBtn)
 	mainPanel:addUI(maximizeBtn)
 	mainPanel:addUI(exitBtn)

@@ -52,7 +52,18 @@ function init()
 	end
 	
 	mainPanel = josUI.newPanel("main")
+
 	wallpaper = josUI.newImage("background",josUsers.currentUser.wallpaper,1,1)
+	wallpaper.orgUpdate = wallpaper.update
+	wallpaper.update = function(self,event)
+		self:orgUpdate(event)
+		if self.imageDir ~= josUsers.currentUser.wallpaper then
+			self.image = paintutils.loadImage(josUsers.currentUser.wallpaper)
+			self.imageDir = josUsers.currentUser.wallpaper
+		end
+
+	end
+
 	fileUIList = josUI.newFileList("files",josCfg.desktopDirectory,2,2,7*7,6*3,leftClick,function() end)
 	fileUIList.alwaysUpdate = false
 	startPopup = josUI.newPopupList("start",1,19-#josCfg.startMenuItems,josCfg.startMenuItems,function(self) popupClicked(self) end)

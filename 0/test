@@ -148,7 +148,7 @@ function init()
 	navigateBar.executeButton = goBtn
 	fileList = josUI.newFileList("files","/",10,4,w-9,h-3,leftClickFile,rightClickFile)
 	local scrollbar = josUI.newScrollBar("bar",w,4,fileList)
-	local freeSpace = josUI.newLabel("Free Space: "..fs.getFreeSpace(dir).." bytes",w-23,h,colors.gray)
+	local freeSpace = josUI.newLabel("Free Space: "..fs.getFreeSpace(dir).." bytes",w-24,h,colors.gray)
 	freeSpace.update = function(self,event)
 		self.name = "Free Space: "..fs.getFreeSpace(dir).." bytes"
 	end
