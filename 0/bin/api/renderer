@@ -11,6 +11,23 @@ function new(screen)
 			self.screen.pixels[x][y].characterColor = colors.black
 		end
 	end
+	
+	function r.drawImage(self,tImage,xPos,yPos)
+		for y=1,#tImage do
+        local tLine = tImage[y]
+        for x=1,#tLine do
+            if tLine[x] > 0 then
+				local xValue = x + xPos - 1
+				local yValue = y + yPos - 1
+				if (xValue > 0) and (xValue < self.screen.width) and (yValue > 0) and (yValue < self.screen.height) then
+					self.screen.pixels[xValue][yValue].color = tLine[x]
+					self.screen.pixels[xValue][yValue].character = " "
+					self.screen.pixels[xValue][yValue].characterColor = colors.black
+				end
+            end
+        end
+    end
+	end
 
 	function r.flush(self)
 		for x = 1,self.screen.width do

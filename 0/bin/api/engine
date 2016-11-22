@@ -10,7 +10,7 @@ function new()
 	end
 	
 	function engine.start(self)
-		screen = renderer.newScreen(10,10)
+		screen = renderer.newScreen(51,19)
 		self.renderer = renderer.new(screen)
 		self:addApp(class.clicker())
 		self.running = true
