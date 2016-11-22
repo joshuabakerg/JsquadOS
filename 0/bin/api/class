@@ -1,20 +1,46 @@
---Button
-	Button = {x=0, y=0,text = "",txtClr = colors.white,bckClr = colors.black}
-	Button.prototype = {x=0, y=0,text = "",txtClr = colors.white,bckClr = colors.black}
-	Button.mt = {}
-	
-	Button.New = function()
-		local btn = {}
-		setmetatable(btn,Button.mt)
-		for k, v in pairs(Button) do
-			btn[k] = v
-		end
-		
-		return btn
-	end
-	
-	Button.draw = function(this)
-		jos.drawButton(this.x,this.y,this.text,this.txtClr,this.bckClr)
-	end
 
---Button/
+
+function runnable()
+	result = {}
+	
+	result.destroyed = false
+	result.engine = nil
+	
+	
+	function result.initialize(self,engine)
+		self.engine = engine
+	end
+	
+	function result.destroy(self,env)
+		self.destroyed = true
+	end
+	
+	function result.update(self)
+	
+	end
+	
+	function result.render(self,renderer)
+	
+	end
+	return result
+end
+
+function clicker()
+	result = runnable()
+	
+	result.x = 1
+	result.y = 1
+	
+	function result.update(self,event)
+		if event[1] == "mouse_click" and event[2] == 1 then
+			self.x = event[3]
+			self.y = event[4]
+		end
+	end
+	
+	function result.render(self,renderer)
+		renderer:draw(self.x,self.y,colors.white," ")
+	end
+	
+	return result
+end

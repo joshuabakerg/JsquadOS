@@ -1,0 +1,45 @@
+function new()
+	engine = {}
+	
+	engine.running = false
+	engine.renderer = nil
+	engine.apps = {}
+	
+	function engine.addApp(self,app)
+		table.insert(self.apps,app)
+	end
+	
+	function engine.start(self)
+		screen = renderer.newScreen(10,10)
+		self.renderer = renderer.new(screen)
+		self:addApp(class.clicker())
+		self.running = true
+		self:render()
+		while self.running do
+			self:update()
+			self:render()
+		end
+	end
+	
+	function engine.update(self)
+		event = {os.pullEvent()}
+		for i = 1,#self.apps do
+			self.apps[i]:update(event)
+		end
+	end
+	
+	function engine.render(self)
+		renderer = self.renderer
+		renderer:clear()
+		for i = #self.apps,1 do
+			self.apps[i]:render(self.renderer)
+		end
+		renderer:flush()
+	end
+	
+	function engine.stop()
+		self.running = true
+	end
+	
+	return engine
+end

@@ -1,0 +1,55 @@
+function new(screen)
+
+	r = {}
+		
+	r.screen = screen
+		
+	function r.draw (self,x,y,color,character)
+		if (x > 0) and (x < self.screen.width) and (y > 0) and (y < self.screen.height) then
+			self.screen.pixels[x][y].color = color
+			self.screen.pixels[x][y].character = string.sub(character,1,1)
+			self.screen.pixels[x][y].characterColor = colors.black
+		end
+	end
+
+	function r.flush(self)
+		for x = 1,self.screen.width do
+			for y = 1,self.screen.height do
+				term.setCursorPos(x,y)
+				term.setBackgroundColor(self.screen.pixels[x][y].color)
+				term.setTextColor(self.screen.pixels[x][y].characterColor)
+				write(self.screen.pixels[x][y].character)
+			end
+		end
+	end
+
+	function r.clear(self)
+		for x = 1,self.screen.width do
+			for y =1,self.screen.height do
+				self.screen.pixels[x][y].color = colors.black
+				self.screen.pixels[x][y].character = " "
+				self.screen.pixels[x][y].characterColor = colors.white
+			end
+		end
+	end
+	return r
+end
+
+function newScreen(rWidth,rHeight)
+
+	s = {}
+
+	s.width = rWidth
+	s.height = rHeight
+	s.pixels = {}
+	for x=1,rWidth do
+		s.pixels[x] = {}
+		for y=1,rHeight do
+			s.pixels[x][y] = {}
+			s.pixels[x][y].color = colors.black
+			s.pixels[x][y].character = " "
+			s.pixels[x][y].characterColor = colors.white
+		end
+	end
+	return s
+end
