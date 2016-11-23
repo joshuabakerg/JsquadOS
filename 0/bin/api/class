@@ -28,7 +28,9 @@ end
 function clicker()
 	local result = runnable()
 	
-	result.mainForm = josUI.newForm("File Explorer",1,1,51,19,colors.blue,colors.gray)
+	result.mainForm = josuiu.newForm("test",0,0,51,19,colors.blue,colors.gray)
+	result.mainForm:addUI(josuiu.newButton("sName",function(self) self.color = colors.blue end,2,2,6,3,colors.red))
+	result.mainForm:addUI(josuiu.newInput("text",2,6,12,1,colors.pink))
 	result.x = 1
 	result.y = 1
 	result.image = paintutils.loadImage("/home/joshua/Pictures/wallpaper.pnt")
@@ -38,12 +40,7 @@ function clicker()
 	
 	function result.render(self,renderer)
 		--renderer:drawImage(self.image,0,0)
-		renderer:clear(colors.gray)
-		for i = self.x,renderer.screen.width do
-			renderer:draw(i,1,colors.blue," ")
-		end
-		renderer:draw(1,1,colors.blue,"TITLE")
-		renderer:drawRect(2,2,4,4,colors.red)
+		self.mainForm:render(renderer)
 	end
 	
 	return result

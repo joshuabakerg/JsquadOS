@@ -8,17 +8,20 @@ local prevDir = "/"
 local mouseX, mouseY = 1,1
 
 function main()
+	local screen = renderer.newScreen(51,19)
+	local renderer = renderer.new(screen)
 	while true do
 		--write(dir)sleep(2)
 		fileList.dir = dir
-		mainForm:render()
+		renderer:clear(colors.black)
+		mainForm:render(renderer)
+		renderer:flush()
 		local event = {os.pullEvent()}
 		if event[1] == "mouse_click" and event[2] == 1 then
 			mouseX = event[3]
 			mouseY = event[4]
 		end
 		mainForm:update(event)
-		
 	end
 end
 
@@ -114,12 +117,12 @@ function init()
 			if y + #josCfg.optionPopUpItems > h then
 				y = y - (y + #josCfg.optionPopUpItems - h)
 			end
-			popupPanel.UIs[1] = josUI.newPopupList("right click",x,y,josCfg.optionPopUpItems,function(tself) popupOptions(tself,self) end)
+			popupPanel.UIs[1] = josuiu.newPopupList("right click",x,y,josCfg.optionPopUpItems,function(tself) popupOptions(tself,self) end)
 		else
 			if y + #josCfg.optionPopUpItemsInFile > h then
 				y = y - (y + #josCfg.optionPopUpItemsInFile - h-1)
 			end
-			popupPanel.UIs[1] = josUI.newPopupList("right click",x,y,josCfg.optionPopUpItemsInFile,function(tself) popupOptions(tself,self) end)
+			popupPanel.UIs[1] = josuiu.newPopupList("right click",x,y,josCfg.optionPopUpItemsInFile,function(tself) popupOptions(tself,self) end)
 		end
 	end
 	
@@ -140,15 +143,15 @@ function init()
 	end
 
 
-	mainForm = josUI.newForm("File Explorer",1,1,w,h,colors.blue,colors.gray)
-	popupPanel = josUI.newPanel("popups")
-	local goBtn = josUI.newButton("Go ",function() if fs.isDir(navigateBar.value) then dir = navigateBar.value end end,w-2,2,3,1,colors.lime)
-	navigateBar = josUI.newInput("navigate",8,2,w-7-4,1,colors.lightGray)
+	mainForm = josuiu.newForm("File Explorer",1,1,w,h,colors.blue,colors.gray)
+	popupPanel = josuiu.newPanel("popups")
+	local goBtn = josuiu.newButton("Go ",function() if fs.isDir(navigateBar.value) then dir = navigateBar.value end end,w-2,2,3,1,colors.lime)
+	navigateBar = josuiu.newInput("navigate",8,2,w-7-4,1,colors.lightGray)
 	navigateBar.value = dir
 	navigateBar.executeButton = goBtn
-	fileList = josUI.newFileList("files","/",10,4,w-9,h-3,leftClickFile,rightClickFile)
-	local scrollbar = josUI.newScrollBar("bar",w,4,fileList)
-	local freeSpace = josUI.newLabel("Free Space: "..fs.getFreeSpace(dir).." bytes",w-24,h,colors.gray)
+	fileList = josuiu.newFileList("files","/",10,4,w-9,h-3,leftClickFile,rightClickFile)
+	local scrollbar = josuiu.newScrollBar("bar",w,4,fileList)
+	local freeSpace = josuiu.newLabel("Free Space: "..fs.getFreeSpace(dir).." bytes",w-24,h,colors.gray)
 	freeSpace.update = function(self,event)
 		self.name = "Free Space: "..fs.getFreeSpace(dir).." bytes"
 	end
@@ -174,8 +177,8 @@ function init()
 	end})
 	
 	mainForm:addUI(freeSpace)
-	mainForm:addUI(josUI.newButton("<-",backBtn,2,2,2,1,colors.lime))
-	mainForm:addUI(josUI.newButton("->",forwardBtn,5,2,2,1,colors.lime))
+	mainForm:addUI(josuiu.newButton("<-",backBtn,2,2,2,1,colors.lime))
+	mainForm:addUI(josuiu.newButton("->",forwardBtn,5,2,2,1,colors.lime))
 	mainForm:addUI(fileList)
 	mainForm:addUI(scrollbar)
 	mainForm:addUI(popupPanel)

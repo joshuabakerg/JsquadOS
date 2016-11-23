@@ -5,7 +5,7 @@ function new(screen)
 	r.screen = screen
 		
 	function r.draw (self,x,y,color,word)
-		if (x > 0) and (x+#word-1 < self.screen.width) and (y > 0) and (y < self.screen.height) then
+		if (x > 0) and (x+#word-1 < self.screen.width+1) and (y > 0) and (y < self.screen.height+1) then
 			for i = 1,#word do
 				self.screen.pixels[x+i-1][y].color = color
 				self.screen.pixels[x+i-1][y].character = string.sub(word,i,i+1)
@@ -42,6 +42,17 @@ function new(screen)
 			self:draw(x,yy,color," ")
 			self:draw(x+w,yy,color," ")
 		end
+		
+	end
+
+	function r.fillRect(self,x,y,w,h,color)
+		
+		for xx = x,x+w do
+			for yy = y,y+h do
+				self:draw(xx,yy,color," ")
+			end
+		end
+		
 		
 	end
 	
