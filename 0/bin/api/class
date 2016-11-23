@@ -1,7 +1,7 @@
 
 
 function runnable()
-	result = {}
+	local result = {}
 	
 	result.destroyed = false
 	result.engine = nil
@@ -26,20 +26,23 @@ function runnable()
 end
 
 function clicker()
-	result = runnable()
+	local result = runnable()
 	
+	result.mainForm = josUI.newForm("File Explorer",1,1,51,19,colors.blue,colors.gray)
 	result.x = 1
 	result.y = 1
 	result.image = paintutils.loadImage("/home/joshua/Pictures/wallpaper.pnt")
 	function result.update(self,event)
-		if event[1] == "mouse_click" and event[2] == 1 then
-			self.x = event[3]
-			self.y = event[4]
-		end
+		self.mainForm:update(event)
 	end
 	
 	function result.render(self,renderer)
-		renderer:drawImage(self.image,0,0)
+		--renderer:drawImage(self.image,0,0)
+		renderer:clear(colors.gray)
+		for i = self.x,renderer.screen.width do
+			renderer:draw(i,1,colors.blue," ")
+		end
+		renderer:draw(1,1,colors.blue,"TITLE")
 	end
 	
 	return result

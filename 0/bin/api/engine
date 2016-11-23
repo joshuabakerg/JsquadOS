@@ -1,8 +1,8 @@
 function new()
-	engine = {}
+	local engine = {}
 	
 	engine.running = false
-	engine.renderer = nil
+	engine.mRenderer = nil
 	engine.apps = {}
 	
 	function engine.addApp(self,app)
@@ -10,8 +10,8 @@ function new()
 	end
 	
 	function engine.start(self)
-		screen = renderer.newScreen(51,19)
-		self.renderer = renderer.new(screen)
+		local screen = renderer.newScreen(51,19)
+		self.mRenderer = renderer.new(screen)
 		self:addApp(class.clicker())
 		self.running = true
 		self:render()
@@ -29,12 +29,12 @@ function new()
 	end
 	
 	function engine.render(self)
-		renderer = self.renderer
-		renderer:clear()
+		mRenderer = self.mRenderer
+		mRenderer:clear(colors.black)
 		for i = #self.apps,1 do
-			self.apps[i]:render(self.renderer)
+			self.apps[i]:render(self.mRenderer)
 		end
-		renderer:flush()
+		mRenderer:flush()
 	end
 	
 	function engine.stop()

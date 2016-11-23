@@ -1,32 +1,42 @@
 function new(screen)
 
-	r = {}
+	local r = {}
 		
 	r.screen = screen
 		
-	function r.draw (self,x,y,color,character)
-		if (x > 0) and (x < self.screen.width) and (y > 0) and (y < self.screen.height) then
-			self.screen.pixels[x][y].color = color
-			self.screen.pixels[x][y].character = string.sub(character,1,1)
-			self.screen.pixels[x][y].characterColor = colors.black
+	function r.draw (self,x,y,color,word)
+		if (x > 0) and (x+#word-1 < self.screen.width) and (y > 0) and (y < self.screen.height) then
+			for i = 1,#word do
+				self.screen.pixels[x+i-1][y].color = color
+				self.screen.pixels[x+i-1][y].character = string.sub(word,i,i+1)
+				self.screen.pixels[x+i-1][y].characterColor = colors.black
+			end
 		end
 	end
 	
 	function r.drawImage(self,tImage,xPos,yPos)
 		for y=1,#tImage do
-        local tLine = tImage[y]
-        for x=1,#tLine do
-            if tLine[x] > 0 then
-				local xValue = x + xPos - 1
-				local yValue = y + yPos - 1
-				if (xValue > 0) and (xValue < self.screen.width) and (yValue > 0) and (yValue < self.screen.height) then
-					self.screen.pixels[xValue][yValue].color = tLine[x]
-					self.screen.pixels[xValue][yValue].character = " "
-					self.screen.pixels[xValue][yValue].characterColor = colors.black
+		local tLine = tImage[y]
+			for x=1,#tLine do
+				if tLine[x] > 0 then
+					local xValue = x + xPos - 1
+					local yValue = y + yPos - 1
+					if (xValue > 0) and (xValue < self.screen.width+1) and (yValue > 0) and (yValue < self.screen.height+1) then
+						self.screen.pixels[xValue][yValue].color = tLine[x]
+						self.screen.pixels[xValue][yValue].character = " "
+						self.screen.pixels[xValue][yValue].characterColor = colors.black
+					end
 				end
-            end
-        end
-    end
+			end
+		end
+	end
+	
+	function r.flood(self,color)
+		for x=1,self.screen.width do
+			for x=1,self.screen.width do
+			
+			end
+		end
 	end
 
 	function r.flush(self)
@@ -40,10 +50,10 @@ function new(screen)
 		end
 	end
 
-	function r.clear(self)
+	function r.clear(self,color)
 		for x = 1,self.screen.width do
 			for y =1,self.screen.height do
-				self.screen.pixels[x][y].color = colors.black
+				self.screen.pixels[x][y].color = color
 				self.screen.pixels[x][y].character = " "
 				self.screen.pixels[x][y].characterColor = colors.white
 			end
@@ -54,7 +64,7 @@ end
 
 function newScreen(rWidth,rHeight)
 
-	s = {}
+	local s = {}
 
 	s.width = rWidth
 	s.height = rHeight
