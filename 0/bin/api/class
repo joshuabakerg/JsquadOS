@@ -43,6 +43,7 @@ function clicker()
 			renderer:draw(i,1,colors.blue," ")
 		end
 		renderer:draw(1,1,colors.blue,"TITLE")
+		renderer:drawRect(2,2,4,4,colors.red)
 	end
 	
 	return result

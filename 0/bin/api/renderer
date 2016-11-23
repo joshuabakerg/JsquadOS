@@ -31,14 +31,20 @@ function new(screen)
 		end
 	end
 	
-	function r.flood(self,color)
-		for x=1,self.screen.width do
-			for x=1,self.screen.width do
-			
-			end
+	function r.drawRect(self,x,y,w,h,color)
+		
+		for xx = x,x+w do
+			self:draw(xx,y,color," ")
+			self:draw(xx,y+h,color," ")
 		end
+		
+		for yy = y,y+h do
+			self:draw(x,yy,color," ")
+			self:draw(x+w,yy,color," ")
+		end
+		
 	end
-
+	
 	function r.flush(self)
 		for x = 1,self.screen.width do
 			for y = 1,self.screen.height do
