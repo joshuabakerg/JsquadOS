@@ -5,11 +5,32 @@ function new(screen)
 	r.screen = screen
 		
 	function r.draw (self,x,y,color,word)
+		if word == nil then
+			word = " "
+		end
+
 		if (x > 0) and (x+#word-1 < self.screen.width+1) and (y > 0) and (y < self.screen.height+1) then
 			for i = 1,#word do
 				self.screen.pixels[x+i-1][y].color = color
 				self.screen.pixels[x+i-1][y].character = string.sub(word,i,i+1)
 				self.screen.pixels[x+i-1][y].characterColor = colors.black
+			end
+		end
+	end
+
+	function r.drawNew (self,x,y,color,tColor,word)
+		if tColor == nil then
+			tColor = colors.black
+		end
+		if word == nil then
+			word = " "
+		end
+
+		if (x > 0) and (x+#word-1 < self.screen.width+1) and (y > 0) and (y < self.screen.height+1) then
+			for i = 1,#word do
+				self.screen.pixels[x+i-1][y].color = color
+				self.screen.pixels[x+i-1][y].character = string.sub(word,i,i+1)
+				self.screen.pixels[x+i-1][y].characterColor = tColor
 			end
 		end
 	end
@@ -67,12 +88,15 @@ function new(screen)
 		end
 	end
 
-	function r.clear(self,color)
+	function r.clear(self,color,tColor)
+		if tColor == nil then
+			tColor = colors.black
+		end
 		for x = 1,self.screen.width do
 			for y =1,self.screen.height do
 				self.screen.pixels[x][y].color = color
 				self.screen.pixels[x][y].character = " "
-				self.screen.pixels[x][y].characterColor = colors.white
+				self.screen.pixels[x][y].characterColor = tColor
 			end
 		end
 	end
