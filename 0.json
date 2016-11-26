@@ -2,7 +2,7 @@
   "storage-limit" : 999999,
   "label" : "Monser",
   "advanced" : true,
-  "on" : true,
+  "on" : false,
   "screen-x" : 184,
   "screen-y" : 79,
   "side-data" : {

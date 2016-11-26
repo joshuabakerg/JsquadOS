@@ -34,6 +34,20 @@ function new(screen)
 			end
 		end
 	end
+
+	function r.write(self,word,x,y,tColor)
+		if tColor == nil then
+			tColor = colors.black
+		end
+
+		if (x > 0) and (x+#word-1 < self.screen.width+1) and (y > 0) and (y < self.screen.height+1) then
+			for i = 1,#word do
+				self.screen.pixels[x+i-1][y].character = string.sub(word,i,i+1)
+				self.screen.pixels[x+i-1][y].characterColor = tColor
+			end
+		end
+
+	end
 	
 	function r.drawImage(self,tImage,xPos,yPos)
 		for y=1,#tImage do

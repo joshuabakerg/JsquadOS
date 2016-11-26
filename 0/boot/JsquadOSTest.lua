@@ -5,9 +5,13 @@ local startPopup = nil
 local tabsList = nil
 
 function main()
+	local screen = renderer.newScreen(51,19)
+	local renderer = renderer.new(screen)
 	while true do
 		term.setCursorBlink(false)
-		mainPanel:render()
+		renderer:clear(colors.black)
+		mainPanel:render(renderer)
+		renderer:flush()
 		mainPanel:update({os.pullEvent()})
 	end
 end
@@ -51,9 +55,9 @@ function init()
 		end
 	end
 	
-	mainPanel = josUI.newPanel("main")
+	mainPanel = josuiu.newPanel("main")
 
-	wallpaper = josUI.newImage("background",josUsers.currentUser.wallpaper,1,1)
+	wallpaper = josuiu.newImage("background",josUsers.currentUser.wallpaper,1,1)
 	wallpaper.orgUpdate = wallpaper.update
 	wallpaper.update = function(self,event)
 		self:orgUpdate(event)
@@ -64,20 +68,20 @@ function init()
 
 	end
 
-	fileUIList = josUI.newFileList("files",josCfg.desktopDirectory,2,2,7*7,6*3,leftClick,function() end)
+	fileUIList = josuiu.newFileList("files",josCfg.desktopDirectory,2,2,7*7,6*3,leftClick,function() end)
 	fileUIList.alwaysUpdate = false
-	startPopup = josUI.newPopupList("start",1,19-#josCfg.startMenuItems,josCfg.startMenuItems,function(self) popupClicked(self) end)
+	startPopup = josuiu.newPopupList("start",1,19-#josCfg.startMenuItems,josCfg.startMenuItems,function(self) popupClicked(self) end)
 	startPopup.hover = false;
 	startPopup.enabled = false
-	startBtn = josUI.newButton("jos",startClick,1,19,4,1,colors.green)
-	tabsList = josUI.newTabList("tabs",5,19,termWidth-5,1,josMulti.tabs)
-	local theTime = josUI.newLabel(textutils.formatTime(os.time(), false),termWidth-7,19,colors.blue)
+	startBtn = josuiu.newButton("jos",startClick,1,19,4,1,colors.green)
+	tabsList = josuiu.newTabList("tabs",5,19,termWidth-5,1,josMulti.tabs)
+	local theTime = josuiu.newLabel(textutils.formatTime(os.time(), false),termWidth-7,19,colors.blue)
 	theTime.update = function(self,event)
 		self.name = textutils.formatTime(os.time(), false)
 	end
 	mainPanel:addUI(wallpaper)
 	mainPanel:addUI(fileUIList)
-	mainPanel:addUI(josUI.newRect("taskbar",1,19,51,1,colors.blue))
+	mainPanel:addUI(josuiu.newRect("taskbar",1,19,51,1,colors.blue))
 	mainPanel:addUI(theTime)
 	mainPanel:addUI(tabsList)
 	mainPanel:addUI(startBtn)

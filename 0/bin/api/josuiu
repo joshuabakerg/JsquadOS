@@ -258,7 +258,7 @@ function newMenubar(sName,theColor)
 		render = function(self,renderer)
 			local items = self.items
 			for i = 1,51 do
-				renderer:draw(i,2,self.color)
+				renderer:drawNew(i,2,self.color)
 			end
 			
 			if items ~= nil then
@@ -318,15 +318,17 @@ function newFolderItem(sName,sValue,sAction1,sAction2,xPos,yPos)
 			for ya = 0,2 do
 				for xa = 0,3 do
 					if self.arr[xa+(ya+3)*4+1] == nil then
-						renderer:draw(self.x+xa,self.y+ya,jos.charToColour(self.arr[xa+ya*4+1])," ")
+						renderer:drawNew(self.x+xa,self.y+ya,jos.charToColour(self.arr[xa+ya*4+1]))
 					else
-						renderer:draw(self.x+xa,self.y+ya,jos.charToColour(self.arr[xa+ya*4+1]),self.arr[xa+(ya+3)*4+1])
+						renderer:drawNew(self.x+xa,self.y+ya,jos.charToColour(self.arr[xa+ya*4+1]),nil,self.arr[xa+(ya+3)*4+1])
 					end
 				end
 			end
-			renderer:draw(self.x-1,self.y+3,colors.gray,self.name:sub(1,6))
+			renderer:drawNew(self.x-1,self.y+3,colors.gray,nil,self.name:sub(1,6))
+			--renderer:write(self.name:sub(1,6),self.x-1,self.y+3,colors.black)
 			term.setCursorPos(self.x,self.y+4)
-			renderer:draw(self.x,self.y+4,colors.gray,self.name:sub(7,10))
+			--renderer:drawNew(self.x,self.y+4,colors.gray,nil,self.name:sub(7,10))
+			renderer:write(self.name:sub(7,10),self.x,self.y+4,colors.black)
 		end,
 		update = function(self,event)
 			self.clicked = false
@@ -482,10 +484,9 @@ function newScrollBar(sName,xPos,yPos,tFileList)
 		scrollAmnt = 1,
 		dir = "/",
 		render = function(self,renderer)
-			term.setTextColor(colors.black)
-			term.setBackgroundColor(colors.lightGray)
-			renderer:draw(self.x,self.y,colors.lightGray,"^")
-			renderer:draw(self.x,self.y+2,colors.lightGray,"v")
+
+			renderer:drawNew(self.x,self.y,colors.lightGray,colors.gray,"^")
+			renderer:drawNew(self.x,self.y+2,colors.lightGray,colors.gray,"v")
 		end,
 		update = function(self,event)
 			self.scrollAmnt = math.ceil(self.fileList.width / 7 )
