@@ -1,0 +1,43 @@
+rectangle = {}
+r = rectangle
+mt = {}
+setmetatable(r,mt)
+
+mt.__index = {
+	type = "rectangle",
+	x = 0,
+	y = 0,
+	width = 0,
+	height = 0,
+	function contains()end
+}
+
+function r.new(x,y,w,h)
+	r.x = x
+	r.y = y
+	r.width = w
+	r.height = h
+end
+
+function mt:__tostring()
+	result = ""
+	result = result.."x - "..self.x.."\n"
+	result = result.."y - "..self.y.."\n"
+	result = result.."w - "..self.width.."\n"
+	result = result.."h - "..self.height
+	return result
+end
+
+function rectangle.contains(...)
+	if type(arg[1]) == "table" and arg[1].type == "rectangle" then
+		print("is rect")
+	else 
+		if #arg ~= 2 then return false end
+		if arg[1] < r.x then return false end
+		if arg[1] > r.x+r.width then return false end
+		if arg[2] < r.y then return false end
+		if arg[2] > r.y+r.height then return false end
+		return true
+	end
+end
+

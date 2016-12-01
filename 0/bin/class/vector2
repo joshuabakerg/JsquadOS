@@ -1,0 +1,26 @@
+vector2 = {}
+v = vector2
+v.type = "vector2"
+mt = {}
+setmetatable(v,mt)
+
+mt.__index = {
+	x = 0,
+	y = 0
+}
+
+function v.new(x,y)
+	v.x = x
+	v.y = y
+end
+
+function mt.__tostring(self)
+	result = ""
+	result = result .. "x -> "..self.x.."\n"
+	result = result .. "y -> "..self.y
+	return result
+end
+
+function mt.__add(lhs,rhs)
+	return new("vector2",lhs.x+rhs.x,lhs.y+rhs.y)
+end
