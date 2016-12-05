@@ -1,0 +1,16 @@
+local outPutFile = "tmp/stdout.log"
+
+
+function logs(level,info)
+
+end
+
+function log(level,...)
+	local h = fs.open(outPutFile, fs.exists(outPutFile) and "a" or "w")
+	text = " "
+	for i in ipairs(args) do
+		text = text.." "..args
+	end
+	h.writeLine(level.." "..text)
+	h.close()
+end

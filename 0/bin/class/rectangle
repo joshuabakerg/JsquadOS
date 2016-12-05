@@ -9,7 +9,7 @@ mt.__index = {
 	y = 0,
 	width = 0,
 	height = 0,
-	function contains()end
+	contains = function()end,
 }
 
 function r.new(x,y,w,h)
@@ -28,11 +28,10 @@ function mt:__tostring()
 	return result
 end
 
-function rectangle.contains(...)
+function r.contains(...)
 	if type(arg[1]) == "table" and arg[1].type == "rectangle" then
-		print("is rect")
-	else 
-		if #arg ~= 2 then return false end
+		
+	elseif #arg == 2 then
 		if arg[1] < r.x then return false end
 		if arg[1] > r.x+r.width then return false end
 		if arg[2] < r.y then return false end
