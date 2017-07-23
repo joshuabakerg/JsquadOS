@@ -23,18 +23,40 @@ function runnable()
 	return result
 end
 
-function _G.new(file,args)
-	print(_G)
+_G.objs = {}
+_G.static = {}
+function _G.new(file,...)
 	result = {}
-
 	local tEnv = {}
+	tEnv.this = tEnv
 	setmetatable( tEnv, { __index = _G } )
-	local tAPI,err = loadfile(file,tEnv)
-	print("here")
+
+	--look in class dir first for given file, if not found return nil
+	if fs.exists("/bin/class/"..file) then file = "/bin/class/"..file end
+	if not fs.exists(file) then
+		return nil
+	end
+
+	--loading files to table for faster load times and less disk usage
+	if _G.objs[file] == nil then
+		local tfile = fs.open( file, "r" )
+    	if tfile then
+    		_G.objs[file] = tfile.readAll()
+    		tfile.close()
+    	end
+	end
+
+	--setting up static env for classes
+	if _G.static[fs.getName(file)] == nil then
+		_G.static[fs.getName(file)] = {} 
+	end
+	tEnv.static = _G.static[fs.getName(file)]
+	 
+	local tAPI,err = load(_G.objs[file],fs.getName(file), "t", tEnv)
 	if tAPI then
 		local ok,err = pcall(tAPI)
 		if not ok then
-			--logger
+			logger.log("error","failed when calling file "..fe.getName(file).."\n"..err)
 			printError(err)
 			return {}
 		end
@@ -46,14 +68,22 @@ function _G.new(file,args)
 	for k,v in pairs(tEnv) do
 		if k ~= "_ENV" then
 			if k == fs.getName(file) then
-				v(table.unpack(args))
-			else
-				result[k] = v
+				if type(v.new) == "function" then v.new(table.unpack(arg)) end
+				result = v
 			end
 		end
 	end
 
 	return result
+end
+
+function _G.del(obj)
+	local key = next(obj) -- get the first key
+	while key do
+	    local k = key -- store the key
+	    key = next(obj, key) -- get the next key first
+	    obj[k] = nil -- and then delete the value
+	end
 end
 
 function vector2(x,y)

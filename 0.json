@@ -3,8 +3,8 @@
   "label" : "Monser",
   "advanced" : true,
   "on" : true,
-  "screen-x" : 618,
-  "screen-y" : 569,
+  "screen-x" : 288,
+  "screen-y" : 236,
   "side-data" : {
     "bottom" : {
       "peripheral" : {
