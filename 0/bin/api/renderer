@@ -81,23 +81,24 @@ function new(screen)
 	end
 
 	function r.fillRect(self,x,y,w,h,color)
-		
 		for xx = x,x+w do
 			for yy = y,y+h do
 				self:draw(xx,yy,color," ")
 			end
 		end
-		
-		
 	end
 	
 	function r.flush(self)
 		for x = 1,self.screen.width do
 			for y = 1,self.screen.height do
-				term.setCursorPos(x,y)
-				term.setBackgroundColor(self.screen.pixels[x][y].color)
-				term.setTextColor(self.screen.pixels[x][y].characterColor)
-				write(self.screen.pixels[x][y].character)
+				if (self.screen.pixels[x][y].color == self.screen.prevpixels[x][y].color) and (self.screen.pixels[x][y].characterColor == self.screen.prevpixels[x][y].characterColor) and (self.screen.pixels[x][y].character == self.screen.prevpixels[x][y].character) then
+					
+				else
+					term.setCursorPos(x,y)
+					term.setBackgroundColor(self.screen.pixels[x][y].color)
+					term.setTextColor(self.screen.pixels[x][y].characterColor)
+					write(self.screen.pixels[x][y].character)
+				end
 			end
 		end
 	end
@@ -108,6 +109,10 @@ function new(screen)
 		end
 		for x = 1,self.screen.width do
 			for y =1,self.screen.height do
+				self.screen.prevpixels[x][y].color = self.screen.pixels[x][y].color
+				self.screen.prevpixels[x][y].character = self.screen.pixels[x][y].character
+				self.screen.prevpixels[x][y].characterColor = self.screen.pixels[x][y].characterColor
+
 				self.screen.pixels[x][y].color = color
 				self.screen.pixels[x][y].character = " "
 				self.screen.pixels[x][y].characterColor = tColor
@@ -124,13 +129,20 @@ function newScreen(rWidth,rHeight)
 	s.width = rWidth
 	s.height = rHeight
 	s.pixels = {}
+	s.prevpixels = {}
 	for x=1,rWidth do
 		s.pixels[x] = {}
+		s.prevpixels[x] = {}
 		for y=1,rHeight do
 			s.pixels[x][y] = {}
 			s.pixels[x][y].color = colors.black
 			s.pixels[x][y].character = " "
 			s.pixels[x][y].characterColor = colors.white
+
+			s.prevpixels[x][y] = {}
+			s.prevpixels[x][y].color = colors.black
+			s.prevpixels[x][y].character = " "
+			s.prevpixels[x][y].characterColor = colors.white
 		end
 	end
 	return s

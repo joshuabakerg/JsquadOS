@@ -225,20 +225,36 @@ function newInput(sName,xPos,yPos,vWidth,vHeight,theColor)
 					self.clicked = false
 				end
 			end
-				if self.clicked then
+			while self.clicked do
+				event = {os.pullEvent()}
 				if event[1] == "char" then
 					self.value = self.value..event[2]
 				elseif event[1] == "key" and event[2] == 14 then
 					self.value = self.value:sub(1,string.len(self.value)-1)
 				elseif (event[1] == "key" and event[2] == 28) then
 					self.clicked = false
-				end	
+				elseif event[1] == "key" and event[2] == 28 then
+		 			if self.executeButton ~= nil then
+						self.executeButton.action(self.executeButton)
+			 		end
+			 	else
+			 		self.clicked = false
+			 	end		
 			end
-			if event[1] == "key" and event[2] == 28 then
-				if self.executeButton ~= nil then
-					self.executeButton.action(self.executeButton)
-				end
-			end
+			-- if self.clicked then
+			-- 	if event[1] == "char" then
+			-- 		self.value = self.value..event[2]
+			-- 	elseif event[1] == "key" and event[2] == 14 then
+			-- 		self.value = self.value:sub(1,string.len(self.value)-1)
+			-- 	elseif (event[1] == "key" and event[2] == 28) then
+			-- 		self.clicked = false
+			-- 	end	
+			-- end
+			-- if event[1] == "key" and event[2] == 28 then
+			-- 	if self.executeButton ~= nil then
+			-- 		self.executeButton.action(self.executeButton)
+			-- 	end
+			-- end
 		end
 	}
 end
